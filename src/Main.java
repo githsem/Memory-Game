@@ -1,3 +1,6 @@
+
+import java.util.Scanner;
+
 public class Main {
     
     private static Kart[][] kartlar = new Kart[4][4];
@@ -23,18 +26,69 @@ public class Main {
        kartlar[3][3] = new Kart('C');
        
        
+       while(oyunBittiMi() == false){
+           oyunTahtasi();
+           tahminEt();
+           
+       }
+       
+    }
+    public static void tahminEt(){
+        Scanner scanner = new Scanner(System.in);
         
+        System.out.print("Birinci Tahmin (i ve j degerlerini bir bosluklu girin...) : ");
+        int i1 = scanner.nextInt();
+        int j1 = scanner.nextInt();
         
-    } 
+        kartlar[i1][j1].setTahmin(true);
+        oyunTahtasi();
+        
+        System.out.print("Ikinci Tahmin (i ve j degerlerini bir bosluklu girin...) : ");
+        int i2 = scanner.nextInt();
+        int j2 = scanner.nextInt();
+        
+        if(kartlar[i1][j1].getDeger() == kartlar[i2][j2].getDeger()){
+            kartlar[i2][j2].setTahmin(true);
+            System.out.println("Dogru Tahmin. Tebrikler...");
+        }
+        else {
+            System.out.println("Yanlis Tahmin");
+            kartlar[i1][j1].setTahmin(false); 
+        }
+    }
+    
+    public static boolean oyunBittiMi(){
+         for (int i = 0 ; i < 4 ; i++){                 
+            for (int j = 0 ; j < 4 ; j++){
+                if (kartlar[i][j].isTahmin() == false){
+                    return false;   
+                }
+                
+            }
+         }
+         return true;
+    }
+            
+            
+            
     public static void oyunTahtasi(){
         
         for (int i = 0 ; i < 4 ; i++){
+            System.out.println("**********************");
             for (int j = 0 ; j < 4 ; j++){
                 
+                if (kartlar[i][j].isTahmin()){
+                    System.out.print("["+ kartlar[i][j].getDeger() + "]  ");
+                }
+                else{
+                    
+                    System.out.print("[  ]  ");
+                }
+                
             }
-            
+            System.out.println("");
         }
-        
+        System.out.println("**********************");
         
     }
 }
